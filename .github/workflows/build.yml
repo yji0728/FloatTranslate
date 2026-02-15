@@ -33,6 +33,12 @@ jobs:
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Download on-device Whisper model
+      run: |
+        mkdir -p app/src/main/assets/models
+        curl -L "https://huggingface.co/onnx-community/whisper-tiny.en-ONNX/resolve/main/onnx/model.onnx" \
+          -o app/src/main/assets/models/whisper-tiny.onnx
       
     - name: Build Debug APK
       run: ./gradlew assembleDebug
