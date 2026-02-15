@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FloatTranslate</string>
+    <string name="start_translation">번역 시작</string>
+    <string name="stop_translation">번역 중지</string>
+    <string name="permission_required">권한 필요</string>
+    <string name="overlay_permission_message">플로팅 창을 표시하기 위해 권한이 필요합니다.</string>
+    <string name="audio_permission_message">음성 인식을 위해 마이크 권한이 필요합니다.</string>
+    <string name="listening">듣는 중...</string>
+    <string name="translating">번역 중...</string>
+    <string name="tap_to_translate">탭하여 번역</string>
+</resources>
