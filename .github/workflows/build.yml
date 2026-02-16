@@ -1,8 +1,10 @@
-name: Build APK
+name: Build and Release APK
 
 on:
   push:
     branches: [ main, master ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -31,23 +33,64 @@ jobs:
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         
-    - name: Grant execute permission for gradlew
+    - name: Make gradlew executable
       run: chmod +x gradlew
       
     - name: Build Debug APK
       run: ./gradlew assembleDebug
       
-    - name: Upload APK
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
+      
+    - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: floattranslate-debug
         path: app/build/outputs/apk/debug/app-debug.apk
         
-    - name: Build Release APK
-      run: ./gradlew assembleRelease
-      
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
         name: floattranslate-release
         path: app/build/outputs/apk/release/app-release-unsigned.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Download Debug APK
+      uses: actions/download-artifact@v4
+      with:
+        name: floattranslate-debug
+        path: ./apk/
+        
+    - name: Download Release APK
+      uses: actions/download-artifact@v4
+      with:
+        name: floattranslate-release
+        path: ./apk/
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./apk/app-debug.apk
+          ./apk/app-release-unsigned.apk
+        body: |
+          ## FloatTranslate ${{ github.ref_name }}
+          
+          ### 다운로드
+          - Debug APK: `app-debug.apk`
+          - Release APK: `app-release-unsigned.apk`
+          
+          ### 설치 방법
+          1. APK 파일 다운로드
+          2. Android 기기에서 "알 수 없는 출처" 설치 허용
+          3. APK 파일 실행하여 설치
+          
+          ### 주의사항
+          - Release APK는 서명되지 않았습니다. Google Play Store 배포를 위해서는 별도 서명이 필요합니다.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
