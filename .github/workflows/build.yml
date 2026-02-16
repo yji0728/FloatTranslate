@@ -37,9 +37,22 @@ jobs:
     - name: Download on-device Whisper model
       run: |
         mkdir -p app/src/main/assets/models
-        curl -fL --retry 3 --retry-delay 2 "https://huggingface.co/onnx-community/whisper-tiny.en-ONNX/resolve/main/onnx/model.onnx" \
-          -o app/src/main/assets/models/whisper-tiny.onnx
-        test -s app/src/main/assets/models/whisper-tiny.onnx || { echo "Error: Model download failed or file is empty"; exit 1; }
+        echo "Downloading Whisper Tiny ONNX encoder model (quantized)..."
+        curl -fL --retry 3 --retry-delay 2 \
+          "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/encoder_model_quantized.onnx" \
+          -o app/src/main/assets/models/encoder_model_quantized.onnx
+        
+        echo "Downloading Whisper Tiny ONNX decoder model (quantized)..."
+        curl -fL --retry 3 --retry-delay 2 \
+          "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/decoder_model_quantized.onnx" \
+          -o app/src/main/assets/models/decoder_model_quantized.onnx
+        
+        # Verify downloads
+        test -s app/src/main/assets/models/encoder_model_quantized.onnx || { echo "Error: Encoder model download failed or file is empty"; exit 1; }
+        test -s app/src/main/assets/models/decoder_model_quantized.onnx || { echo "Error: Decoder model download failed or file is empty"; exit 1; }
+        
+        echo "Model download completed successfully!"
+        ls -lh app/src/main/assets/models/
       
     - name: Build Debug APK
       run: ./gradlew assembleDebug
