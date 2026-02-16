@@ -8,7 +8,7 @@ import android.util.Log
  * 
  * MVP에서는 Mock 기능만 제공.
  * 실제 구현시:
- * 1. assets/models/whisper-tiny.onnx 모델 파일 추가
+ * 1. assets/models/encoder_model_quantized.onnx 및 decoder_model_quantized.onnx 모델 파일 추가
  * 2. ONNX Runtime으로 모델 로드 및 추론
  * 3. 오디오 전처리 (Mel spectrogram)
  */

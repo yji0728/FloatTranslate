@@ -60,9 +60,25 @@ cd /mnt/c/Users/yjisec/.openclaw/workspace/FloatTranslate
 - README.md 및 기술 문서
 
 ⏳ **남은 작업:**
-- 실제 APK 빌드 (SDK 필요)
-- Whisper ONNX 모델 통합
+- Whisper ONNX 모델 실제 통합 (모델은 이미 다운로드됨)
 - Gemma GGUF 모델 통합
+
+---
+
+## 모델 다운로드
+
+GitHub Actions 빌드 시 자동으로 다운로드됩니다:
+- Whisper Tiny ONNX encoder (INT8 quantized)
+- Whisper Tiny ONNX decoder (INT8 quantized)
+
+수동으로 다운로드하려면:
+```bash
+cd app/src/main/assets/models
+curl -fL "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/encoder_model_quantized.onnx" -o encoder_model_quantized.onnx
+curl -fL "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/decoder_model_quantized.onnx" -o decoder_model_quantized.onnx
+```
+
+자세한 내용은 `app/src/main/assets/models/README.md` 참조
 
 ---
 
