@@ -1,1 +1,22 @@
+# Gradle
 .gradle/
+build/
+*.iml
+
+# Android Studio
+.idea/
+local.properties
+
+# Generated files
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# ONNX Models (downloaded during build)
+*.onnx
+
+# OS files
+.DS_Store
+Thumbs.db
