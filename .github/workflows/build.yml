@@ -114,3 +114,39 @@ jobs:
           - Release APK는 서명되지 않았습니다. Google Play Store 배포를 위해서는 별도 서명이 필요합니다.
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+name: Build and Release APK
+
+ on:
+   push:
+     branches: [ main, master ]
+     tags:
+       - 'v*'
+   pull_request:
+     branches: [ main, master ]
+   workflow_dispatch:
+
++permissions:
++  contents: write
++
+ jobs:
+   build:
+     runs-on: ubuntu-latest
+@@
+   release:
+     needs: build
+     runs-on: ubuntu-latest
+     if: startsWith(github.ref, 'refs/tags/v')
+@@
+     - name: Create Release
+-      uses: softprops/action-gh-release@v1
++      uses: softprops/action-gh-release@v2
+       with:
+         files: |
+           ./apk/app-debug.apk
+           ./apk/app-release-unsigned.apk
+@@
+       env:
+-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
++        GITHUB_TOKEN: ${{ github.token }}
