@@ -29,6 +29,22 @@ git push -u origin master
 # WSL2에서 실행
 cd /mnt/c/Users/yjisec/.openclaw/workspace/FloatTranslate
 
+# (권장) Java 17 고정 (.tool-versions 사용)
+mise install
+mise exec -- java -version
+
+# 또는 직접 JAVA_HOME 지정
+# export JAVA_HOME=~/.local/share/mise/installs/java/17.0.2
+# export PATH="$JAVA_HOME/bin:$PATH"
+
+# Android SDK 경로 지정 (최초 1회)
+# local.properties 파일 생성
+echo "sdk.dir=$HOME/android-sdk" > local.properties
+
+# cmdline-tools 설치 후 SDK 패키지 설치
+# yes | sdkmanager --licenses
+# sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
 # Gradle wrapper 다운로드
 ./gradlew --version
 
@@ -60,22 +76,21 @@ cd /mnt/c/Users/yjisec/.openclaw/workspace/FloatTranslate
 - README.md 및 기술 문서
 
 ⏳ **남은 작업:**
-- Whisper ONNX 모델 실제 통합 (모델은 이미 다운로드됨)
-- Gemma GGUF 모델 통합
+- Voxtral GGUF 모델 실제 추론 엔진 연동 (현재 Mock)
+- 번역 모델(Gemma 등) 모바일 추론 파이프라인 연동
 
 ---
 
 ## 모델 다운로드
 
-GitHub Actions 빌드 시 자동으로 다운로드됩니다:
-- Whisper Tiny ONNX encoder (INT8 quantized)
-- Whisper Tiny ONNX decoder (INT8 quantized)
+GitHub Actions 기본 빌드는 APK 생성 안정성을 위해 모델 대용량 파일을 다운로드하지 않습니다.
 
-수동으로 다운로드하려면:
+`workflow_dispatch`에서 `include_model=true`로 실행하면 모델 메타데이터만 내려받아 검증할 수 있습니다.
+
+실제 모델 파일은 수동으로 다운로드하세요:
 ```bash
 cd app/src/main/assets/models
-curl -fL "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/encoder_model_quantized.onnx" -o encoder_model_quantized.onnx
-curl -fL "https://huggingface.co/onnx-community/whisper-tiny/resolve/main/onnx/decoder_model_quantized.onnx" -o decoder_model_quantized.onnx
+curl -fL "https://huggingface.co/TrevorJS/voxtral-mini-realtime-gguf/resolve/main/voxtral-q4.gguf" -o voxtral-q4.gguf
 ```
 
 자세한 내용은 `app/src/main/assets/models/README.md` 참조

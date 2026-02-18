@@ -30,7 +30,7 @@
 | Kotlin Coroutines | 비동기 처리 | ✅ 완료 |
 | WindowManager | 플로팅 창 구현 | ✅ 완료 |
 | AudioRecord | 오디오 캡처 | ✅ 완료 |
-| ONNX Runtime | Whisper 모델 추론 | ⚙️ 준비됨 |
+| GGUF Runtime (llama.cpp 계열) | Voxtral 모델 추론 | ⚙️ 준비됨 |
 | Material 3 | 디자인 시스템 | ✅ 완료 |
 
 ---
@@ -48,7 +48,7 @@
 
 ### 3.2 待 구현 (차후 버전)
 
-- [ ] **실제 Whisper 모델** - assets/models/whisper-tiny.onnx 파일 추가
+- [ ] **실제 Voxtral 모델** - assets/models/voxtral-q4.gguf 추론 런타임 연동
 - [ ] **실제 번역 모델** - Gemma 2B 또는 Llama 기반 번역
 - [ ] **설정 화면** - 언어 선택, 모델 선택 등
 - [ ] **번역 기록** - SharedPreferences 기반 저장
@@ -74,8 +74,8 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     
-    // ONNX Runtime (실제 모델 사용시)
-    implementation("com.microsoft.onnxruntime:onnxruntime-mobile:1.16.3")
+    // GGUF Runtime (실제 모델 사용시)
+    // implementation("org.some:llama-cpp-android:<version>")
 }
 ```
 
@@ -116,4 +116,4 @@ com.floattranslate/
 ## 7. 버전 정보
 
 - **v1.0.0** - MVP (Mock 기반)
-- **v1.1.0** - 실제 Whisper/번역 모델 통합 (예정)
+- **v1.1.0** - 실제 Voxtral/번역 모델 통합 (예정)
