@@ -4,15 +4,17 @@ import android.content.Context
 import android.util.Log
 
 /**
- * Whisper ONNX 모델 래퍼 (Mock 버전)
+ * Voxtral GGUF 모델 래퍼 (Mock 버전)
  * 
  * MVP에서는 Mock 기능만 제공.
  * 실제 구현시:
- * 1. assets/models/encoder_model_quantized.onnx 및 decoder_model_quantized.onnx 모델 파일 추가
- * 2. ONNX Runtime으로 모델 로드 및 추론
- * 3. 오디오 전처리 (Mel spectrogram)
+ * 1. assets/models/voxtral-q4.gguf 모델 파일 추가
+ * 2. llama.cpp/ggml 기반 Android 런타임으로 모델 로드 및 추론
+ * 3. 스트리밍 오디오 전처리 및 디코딩
  */
 class WhisperEngine(private val context: Context) {
+
+    // NOTE: 클래스명은 기존 코드 호환을 위해 유지. 내부 모델은 Voxtral 기준으로 갱신.
 
     companion object {
         const val TAG = "WhisperEngine"
@@ -28,10 +30,10 @@ class WhisperEngine(private val context: Context) {
 
     private fun initialize() {
         try {
-            // TODO: ONNX 모델 로드
-            // val session = OrtEnvironment.getEnvironment().createSession(modelPath)
+            // TODO: GGUF 모델 로드
+            // val session = LlamaSession.create(modelPath)
             isInitialized = true
-            Log.d(TAG, "WhisperEngine initialized (mock)")
+            Log.d(TAG, "WhisperEngine initialized with Voxtral config (mock)")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize: ${e.message}")
         }
@@ -45,7 +47,7 @@ class WhisperEngine(private val context: Context) {
 
         // TODO: 실제 구현
         // 1. Mel spectrogram 변환
-        // 2. ONNX 추론
+        // 2. GGUF 런타임 추론
         // 3. 토큰 디코딩
         
         return "Hello, this is a sample transcription."
@@ -60,7 +62,7 @@ class WhisperEngine(private val context: Context) {
     }
 
     fun release() {
-        // TODO: ONNX 세션 해제
+        // TODO: GGUF 세션 해제
         isInitialized = false
     }
 }

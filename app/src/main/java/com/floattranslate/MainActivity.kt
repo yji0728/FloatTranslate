@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
             
             // 권한 안내
             Text(
-                text = "필요한 권한:\n• 마이크 (음성 인식)\n• 플로팅 창 (오버레이)",
+                text = "필요한 권한:\n• 마이크 (음성 인식)\n• 플로팅 창 (오버레이)\n\n※ 일반 앱은 시스템 오디오 직접 캡처 불가",
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
